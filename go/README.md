@@ -4,7 +4,7 @@
 
 ```
 # go get
-go get github.com/wiredcraft-ops/took-kit/go/cmd/wcl
+go get github.com/wiredcraft-ops/tool-kit/go/cmd/wcl
 
 # download binary from https://github.com/wiredcraft-ops/tool-kit/releases
 
