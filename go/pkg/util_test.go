@@ -8,12 +8,12 @@ import (
 )
 
 var (
-	test_data = "test_data"
+	testdata = "testdata"
 )
 
 func TestCreateFile(t *testing.T) {
 
-	var testFile = test_data + "/test"
+	var testFile = testdata + "/test"
 	err := CreateFile(testFile)
 	if err != nil {
 		t.Fatalf("E! CreateFile() failed: %v", err)
@@ -31,7 +31,7 @@ func TestCreateFile(t *testing.T) {
 
 func TestCreateFileWithContent(t *testing.T) {
 
-	var testFile = test_data + "/test"
+	var testFile = testdata + "/test"
 	var testContent = "asdf"
 	err := CreateFileWithContent(testFile, testContent)
 	if err != nil {
@@ -55,7 +55,7 @@ func TestCreateFileWithContent(t *testing.T) {
 
 func TestCreateDir(t *testing.T) {
 
-	var testDir = test_data + "/test"
+	var testDir = testdata + "/test"
 	err := CreateDir(testDir)
 	if err != nil {
 		t.Fatalf("E! CreateDir() failed: %v", err)
@@ -78,8 +78,8 @@ func TestCreateDir(t *testing.T) {
 
 func TestCreateSoftLink(t *testing.T) {
 
-	var testFile = test_data + "/test"
-	var testLink = test_data + "/test_link"
+	var testFile = testdata + "/test"
+	var testLink = testdata + "/test_link"
 
 	CreateFile(testFile)
 	err := CreateSoftLink(testFile, testLink)
@@ -103,11 +103,11 @@ func TestCreateSoftLink(t *testing.T) {
 
 func TestIsDir(t *testing.T) {
 
-	b, err := IsDir(test_data)
+	b, err := IsDir(testdata)
 	if err != nil {
 		t.Fatalf("E! IsDir failed: %v", err)
 	}
 	if !b {
-		t.Fatalf("E! %s is dir", test_data)
+		t.Fatalf("E! %s is dir", testdata)
 	}
 }
