@@ -1,0 +1,14 @@
+---
+  name: 'Update DevOps playbooks and pipelines'
+  
+  vars:
+    path: "CHANGEME(Such as /opt/hilton/hilton-devops)"
+  
+  actions:
+    - name: Update playbooks and pipelines
+      type: bash
+      cmd: |
+        cd {{ path }}/devops/ansible && 
+        ansible-playbook -i inventory.tools update_devops.yml \
+          --vault-password-file /var/lib/pipelines/secure/CHANGEME.key \
+          -u wcladmin 

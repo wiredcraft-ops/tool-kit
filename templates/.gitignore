@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+.vault_password
+
+devops/ansible/roles/*
+!devops/ansible/roles/.gitkeep

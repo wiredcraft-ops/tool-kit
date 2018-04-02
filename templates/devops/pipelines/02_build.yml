@@ -1,0 +1,79 @@
+---
+  name: Build component
+  
+  triggers:
+    - type: webhook
+  
+  vars:
+    path: "CHANGEME(Such as /opt/hilton/hilton-devops)"
+    slack_webhook: "CHANGEME"
+  
+  prompt:
+    environment: 
+      type: select
+      options:
+        - dev
+        - staging
+        - production
+    component: 
+      type: select
+      options:
+        - CHANGEME
+    version: master
+  
+  actions:
+    - name: Notify in Slack
+      type: slack
+      ignore_errors: true
+      message: |
+        {% if webhook_content is defined and webhook_content.environment and webhook_content.version and webhook_content.component %}
+          {% set environment = webhook_content.environment %}
+          {% set version = webhook_content.version %}
+          {% set component = webhook_content.component %}
+        {% endif %}
+  
+        '[CHANGEME | {{ environment }}] Starting Build process for component: {{ component }}:{{ version }}'
+  
+    - name: Trigger build
+      type: bash
+      cmd: |
+        {% if webhook_content is defined and webhook_content.environment and webhook_content.version and webhook_content.component %}
+          {% set environment = webhook_content.environment %}
+          {% set version = webhook_content.version %}
+          {% set component = webhook_content.component %}
+        {% endif %}
+  
+        cd {{ path }}/devops/ansible && 
+        ansible-playbook -i inventory.{{ environment }} build.yml \
+          --vault-password-file /var/lib/pipelines/secure/CHANGE.key \
+          -u wcladmin -b \
+          -e "dior_component_version={{ version }}" \
+          -e component={{ component }}
+  
+    - name: Notify in Slack
+      type: slack
+      ignore_errors: true
+      always_run: true
+      message: |
+        {% if webhook_content is defined and webhook_content.environment and webhook_content.version and webhook_content.component %}
+          {% set environment = webhook_content.environment %}
+          {% set version = webhook_content.version %}
+          {% set component = webhook_content.component %}
+        {% endif %}
+  
+        '[CHANGE | {{ environment }}] *{{ status }}* Build process for component: {{ component }}:{{ version }}'
+  
+  
+    - name: Trigger deploy (only if from webhook)
+      type: bash
+      cmd: |
+        {% if webhook_content is defined and webhook_content.environment and webhook_content.version and webhook_content.component %}
+          {% set environment = webhook_content.environment %}
+          {% set version = webhook_content.version %}
+          {% set component = webhook_content.component %}
+          curl -X POST -d "{\"environment\": \"{{ environment }}\", \"version\": \"{{ version }}\", \"component\": \"{{ component }}\" }" \
+              -H 'Content-Type: application/json' \
+              http://127.0.0.1:8888/api/webhook/CHANGEME
+        {% else %}
+          echo "Not triggering the deploy"
+        {% endif %}

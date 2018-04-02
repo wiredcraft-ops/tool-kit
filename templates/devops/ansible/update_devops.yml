@@ -1,0 +1,29 @@
+---
+  #
+  # Simple helper for Pipelines to update itself
+  #
+  - hosts: admin
+    vars:
+      base_repo: "CHANGEME(Such as /opt/hilton/hilton-devops)"
+      pipelines_workspace: /var/lib/pipelines/workspace
+
+  
+    tasks:
+      - name: Clone the code base
+        git:
+          repo: "CHANGEME(git repo)"
+          dest: "{{ base_repo }}"
+          version: "master"
+          track_submodules: yes
+          accept_hostkey: yes
+          force: yes
+  
+      - name: Update Pipelines
+        become: true
+        shell: |
+          for pipeline in $(ls {{ base_repo }}/devops/pipelines/) 
+          do 
+            ln -sf {{ base_repo }}/devops/pipelines/$pipeline 
+          done
+        args:
+          chdir: "{{ pipelines_workspace }}" 
