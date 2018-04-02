@@ -100,8 +100,11 @@ EOF
     cat san.crt san.key > san.pem
     openssl pkcs12 -passin pass:$password  -passout pass:$password -export -in san.pem -out san.pfx
     openssl rsa  -passin pass:$password -in san.key -out san.key.nopass
-    # TODO: Put $password and san.key.nopass into ansible-vault
-    #ansible-vault encrypt san.key.nopass
+    echo "encrypt san.key.nopass:"
+    ansible-vault encrypt san.key.nopass
+
+    echo "encrypt openssl password:"
+    ansible-vault encrypt_string --new-vault-password-file vault $password --name 'openssl_password'
     cd $current
 }
 
