@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+	- name: Define the component to run
+	  debug:
+		msg: You need to set the component to run with -e 'component=component'
+	- name: Aborting
+	  fail:
+		msg: component variable is not defined
