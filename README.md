@@ -11,6 +11,11 @@ Generate templates, ssl files and ssh key for new project.
 2. Create ssh key using `ssh-keygen`
 3. Create ssl files using `opsnssl`
 
+
+## Install
+
+You just need the `wcl.sh` and run it in `bash`, that's all.
+
 ### Usage
 
 ```bash
