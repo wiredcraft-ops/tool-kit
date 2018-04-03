@@ -23,56 +23,88 @@ You just need the `wcl.sh` and run it in `bash`, that's all.
 $ git clone -b shell git@github.com:wiredcraft-ops/tool-kit.git
 ```
 
+> You could store the vault password in `./.vault_password`, or it will ask for you input.
+
 ```bash
 $ ./wcl.sh new hello
 
-$ ls hello/
-
-├── ansible/
-│   ├── build/
-│   │   ├── files -> ../files//
-│   │   ├── abort.yml
-│   │   ├── roles -> ../roles/
-│   │   └── templetes -> ../templetes/
-│   ├── deploy/
-│   │   ├── files -> ../files//
-│   │   ├── abort.yml
-│   │   ├── roles -> ../roles/
-│   │   └── templetes -> ../templetes/
-│   ├── files/
-│   │   ├── common/
-│   │   │   └── ssh/
-│   │   │       ├── id_rsa
-│   │   │       └── id_rsa.pub
-│   │   └── ssl/
-│   │       ├── openssl.cnf
-│   │       ├── rootCA.key
-│   │       ├── rootCA.pem
-│   │       ├── rootCA.srl
-│   │       ├── san.crt
-│   │       ├── san.csr
-│   │       ├── san.key
-│   │       ├── san.key.nopass
-│   │       ├── san.pem
-│   │       └── san.pfx
-│   ├── host_vars/
-│   │   └── dev-all-in-one
-│   ├── setup/
-│   │   ├── files -> ../files//
-│   │   ├── abort.yml
-│   │   ├── roles -> ../roles/
-│   │   └── templetes -> ../templetes/
-│   ├── ansible.cfg
-│   ├── build.yml
-│   ├── deploy.yml
-│   ├── inventory.dev
-│   ├── inventory.prod
-│   ├── inventory.staging
-│   ├── requirements.yml
-│   ├── setup.yml
-│   └── update_devops.yml
-├── pipelines/
-│   ├── 99_update_devops.yml
-│   └── README.md
+$ tree -F --dirsfirst hello/
+├── devops/
+│   ├── ansible/
+│   │   ├── build/
+│   │   │   ├── files -> ../files//
+│   │   │   ├── roles -> ../roles//
+│   │   │   ├── templates -> ../templates//
+│   │   │   └── abort.yml
+│   │   ├── deploy/
+│   │   │   ├── files -> ../files//
+│   │   │   ├── roles -> ../roles//
+│   │   │   ├── templates -> ../templates//
+│   │   │   └── abort.yml
+│   │   ├── files/
+│   │   │   ├── common/
+│   │   │   │   ├── ssh/
+│   │   │   │   │   ├── id_rsa
+│   │   │   │   │   └── id_rsa.pub
+│   │   │   │   └── ssl/
+│   │   │   │       └── private/
+│   │   │   │           ├── openssl.cnf
+│   │   │   │           ├── rootCA.key
+│   │   │   │           ├── rootCA.pem
+│   │   │   │           ├── rootCA.srl
+│   │   │   │           ├── san.crt
+│   │   │   │           ├── san.csr
+│   │   │   │           ├── san.key
+│   │   │   │           ├── san.key.nopass
+│   │   │   │           ├── san.pem
+│   │   │   │           └── san.pfx
+│   │   │   ├── dev/
+│   │   │   ├── production/
+│   │   │   ├── ssl/
+│   │   │   └── staging/
+│   │   ├── group_vars/
+│   │   │   ├── all/
+│   │   │   │   ├── ssl.vault
+│   │   │   │   └── vars.yml
+│   │   │   ├── all-dev/
+│   │   │   │   └── vars.yml
+│   │   │   ├── all-production/
+│   │   │   │   └── vars.yml
+│   │   │   ├── all-staging/
+│   │   │   │   └── vars.yml
+│   │   │   └── all-tools/
+│   │   │       └── vars.yml
+│   │   ├── host_vars/
+│   │   │   └── dev-all-in-one
+│   │   ├── roles/
+│   │   ├── setup/
+│   │   │   ├── files -> ../files//
+│   │   │   ├── roles -> ../roles//
+│   │   │   ├── templates -> ../templates//
+│   │   │   └── abort.yml
+│   │   ├── templates/
+│   │   │   ├── dev/
+│   │   │   ├── production/
+│   │   │   ├── staging/
+│   │   │   └── tools/
+│   │   ├── ansible.cfg
+│   │   ├── build.yml
+│   │   ├── deploy.yml
+│   │   ├── inventory.dev
+│   │   ├── inventory.production
+│   │   ├── inventory.staging
+│   │   ├── inventory.tools
+│   │   ├── requirements.yml
+│   │   ├── setup.yml
+│   │   ├── update_devops.yml
+│   │   ├── vars.dev
+│   │   ├── vars.production
+│   │   └── vars.staging
+│   ├── pipelines/
+│   │   ├── 02_build.yml
+│   │   ├── 03_deploy.yml
+│   │   ├── 99_update_devops.yml
+│   │   └── README.md
+│   └── README.md
 └── README.md
 ```
