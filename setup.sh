@@ -16,12 +16,20 @@ get_template_repo(){
     git clone -q -b shell git@github.com:wiredcraft-ops/tool-kit.git ${tmp_dir}
     mv ${tmp_dir}/templates ./${name}
 
-    # If $tmp_dir exist, clean it.
-    if [ -d "${tmp_dir}" ]
-    then
-        rm -rf ${tmp_dir}
-    fi
+    replace_templates ${name} "_CHANGEME_NAME_PATH_" "\/opt\/${name}"
+    replace_templates ${name} "_CHANGEME_ONLY_NAME_" "${name}"
+    replace_templates ${name} "_CHANGEME_REPO_" "git@github.com:Wiredcraft\/${name}.git"
+}
 
+replace_templates(){
+    name=$1
+    origin=$2
+    target=$3
+    sed_string='s/'${origin}'/'${target}'/g'
+    for f in $(grep -r ${origin} ./${name} -l)
+    do
+        sed -i '' -e ${sed_string} $f
+    done
 }
 
 # Default num 10

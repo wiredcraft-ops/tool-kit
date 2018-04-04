@@ -5,7 +5,7 @@
     - type: webhook
   
   vars:
-    path: "CHANGEME(Such as /opt/hilton/hilton-devops)"
+    path: "_CHANGEME_NAME_PATH_"
     slack_webhook: "CHANGEME"
   
   prompt:
@@ -32,7 +32,7 @@
           {% set component = webhook_content.component %}
         {% endif %}
   
-        '[CHANGEME | {{ environment }}] Starting Build process for component: {{ component }}:{{ version }}'
+        '[_CHANGEME_ONLY_NAME_ | {{ environment }}] Starting Build process for component: {{ component }}:{{ version }}'
   
     - name: Trigger build
       type: bash
@@ -61,7 +61,7 @@
           {% set component = webhook_content.component %}
         {% endif %}
   
-        '[CHANGE | {{ environment }}] *{{ status }}* Build process for component: {{ component }}:{{ version }}'
+        '[_CHANGEME_ONLY_NAME_ | {{ environment }}] *{{ status }}* Build process for component: {{ component }}:{{ version }}'
   
   
     - name: Trigger deploy (only if from webhook)

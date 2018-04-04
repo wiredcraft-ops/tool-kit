@@ -2,7 +2,7 @@
   name: 'Update DevOps playbooks and pipelines'
   
   vars:
-    path: "CHANGEME(Such as /opt/hilton/hilton-devops)"
+    path: "_CHANGEME_NAME_PATH_"
   
   actions:
     - name: Update playbooks and pipelines

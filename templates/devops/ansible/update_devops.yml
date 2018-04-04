@@ -4,14 +4,14 @@
   #
   - hosts: admin
     vars:
-      base_repo: "CHANGEME(Such as /opt/hilton/hilton-devops)"
+      base_repo: "_CHANGEME_NAME_PATH_"
       pipelines_workspace: /var/lib/pipelines/workspace
 
   
     tasks:
       - name: Clone the code base
         git:
-          repo: "CHANGEME(git repo)"
+          repo: "_CHANGEME_REPO_"
           dest: "{{ base_repo }}"
           version: "master"
           track_submodules: yes
