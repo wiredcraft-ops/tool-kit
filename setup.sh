@@ -3,6 +3,7 @@
 
 version="0.0.1"
 ssl_password=""
+valut_encrypt_password=""
 
 get_template_repo(){
     name=$1
@@ -116,20 +117,21 @@ EOF
     cd ${current}
 
     # If no password file, ask from stdin
-    vault_password_file=""
-    if [ -f ".vault_password" ]
-    then
-        vault_password_file="--vault-password-file=.vault_password"
-    fi
+    read -p "vault_password(generate random if empty): " vault_password
+    vault_password=${vault_password:-$(random_pass 10)}
+
+    vault_password_file="/tmp/.vault_password"
+    echo $vault_password > ${vault_password_file}
 
     echo "encrypt san.key.nopass..."
-    ansible-vault encrypt ${vault_password_file} ${ssl_path}/san.key.nopass
+    ansible-vault encrypt --vault-password-file=${vault_password_file} ${ssl_path}/san.key.nopass
 
 
     echo "encrypt openssl password..."
     echo "vault_ssl_password: "${passowrd} > ${ssl_vault_path}/ssl.vault
-    ansible-vault encrypt ${vault_password_file}  ${ssl_vault_path}/ssl.vault
+    ansible-vault encrypt --vault-password-file=${vault_password_file}  ${ssl_vault_path}/ssl.vault
     ssl_password=${password}
+    valut_encrypt_password=${vault_password}
 }
 
 
@@ -142,7 +144,8 @@ gen_sshkey(){
     fi
     ssh_path=${name}/devops/ansible/files/common/ssh
     mkdir -p ${ssh_path}
-    ssh-keygen -f ${ssh_path}/id_rsa -t rsa  -b 4096 -q -C "pipelines@${name}" -N ''
+    ssh-keygen -f ${ssh_path}/pipelines_rsa -t rsa  -b 4096 -q -C "pipelines@${name}" -N ''
+    ssh-keygen -f ${ssh_path}/wcladmin -t rsa  -b 4096 -q -C "wcladmin@${name}" -N ''
 }
 
 
@@ -164,16 +167,39 @@ new(){
     gen_ssl ${name}
 
     cat <<-EOF
-*************
-***  Done ***
 
+
+************************************
+****** Done ************************
+
+**** Password ****
 * SSL Password: ${ssl_password}
-EOF
-}
+* Valut Password: ${valut_encrypt_password}
 
-upgrade(){
-    # WIP
-    wcl_path=$( cd "$(dirname "$0")" ; pwd -P )/$(basename $0)
+**** Files ****
+* ssh key:
+${name}/devops/ansible/files/common/ssh/
+
+* ssl files:
+${name}/devops/ansible/files/common/ssl/private/
+${name}/devops/ansible/group_vars/all/ssl.valut
+
+
+************************************
+Now you should change some vars for your project.
+************************************
+
+Use grep to find them:
+
+$ grep -r CHANGEME test-devops/
+
+(Maybe you also need to check the path in pipelines, they have
+already been replaced by 'sed')
+
+$ grep -r path:  test-devops/devops/pipelines/
+$ grep -r base_repo:  test-devops/devops/ansible/update_devops.yml
+
+EOF
 }
 
 version(){
@@ -186,7 +212,6 @@ usage(){
     echo "Usage: "
     echo "wcl new "
     echo "      'new <repo>' pull project template, create new ssl and ssh key'"
-    #echo "      'upgrade' upgrade wcl.sh it self"
     echo "      'version' print version info"
 }
 
@@ -195,7 +220,6 @@ usage(){
 
 case $1 in
     "new") new ${@:2};;
-    "upgrade") upgrade;;
     "version") version;;
     *) echo "invalid params"
        echo
