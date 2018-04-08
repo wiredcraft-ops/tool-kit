@@ -3,17 +3,17 @@
 
 version="0.0.2"
 ssl_password=""
-valut_encrypt_password=""
+vault_encrypt_password=""
 
 get_template_repo(){
-    name=$1
+    local name=$1
     if [[ -z "${name}" ]]
     then
         echo "Miss parameters when called 'get_template_repo'"
         exit 1
     fi
 
-    tmp_dir=$(mktemp -d)
+    local tmp_dir=$(mktemp -d)
     git clone -q -b shell git@github.com:wiredcraft-ops/tool-kit.git ${tmp_dir}
     mv ${tmp_dir}/templates ./${name}
 
@@ -39,7 +39,7 @@ replace_templates(){
 
 # Default num 10
 random_pass(){
-    num=$1
+    local num=$1
     if [[ -z "${num}" ]]
     then
         num=10
@@ -49,17 +49,17 @@ random_pass(){
 }
 
 gen_ssl(){
-    name=$1
+    local name=$1
     if [[ -z "${name}" ]]
     then
         echo "Miss parameters when called 'gen_ssl'"
         exit 1
     fi
 
-    current=$(pwd)
-    password=$(random_pass)
-    ssl_path=${name}/devops/ansible/files/common/ssl/private
-    ssl_vault_path=${name}/devops/ansible/group_vars/all
+    ssl_password=$(random_pass)
+    local current=$(pwd)
+    local ssl_path=${name}/devops/ansible/files/common/ssl/private
+    local ssl_vault_path=${name}/devops/ansible/group_vars/all
 
     # Read vars from stdin
     read -p "Country(CN): " country
@@ -107,22 +107,25 @@ DNS.1 = ${altname}
 
 EOF
 
-    openssl genrsa -des3  -passout pass:${password} -out rootCA.key 4096
-    openssl req -x509 -new -passin pass:${password} -nodes -key rootCA.key -subj "/C=${country}/ST=${state}/L=${locality}/O=${organization}/OU=${organizationalunit}/CN=${commonname}/emailAddress=$email" -sha256 -days 3650 -out rootCA.pem
-    openssl genrsa -des3 -passout pass:${password} -out san.key 4096
-    openssl req -new -passin pass:${password} -out san.csr -key san.key -config openssl.cnf
-    openssl x509 -req -passin pass:${password} -days 3650 -in san.csr -out san.crt \
+    openssl genrsa -des3  -passout pass:${ssl_password} -out rootCA.key 4096
+    openssl req -x509 -new -passin pass:${ssl_password} -nodes -key rootCA.key -subj "/C=${country}/ST=${state}/L=${locality}/O=${organization}/OU=${organizationalunit}/CN=${commonname}/emailAddress=$email" -sha256 -days 3650 -out rootCA.pem
+    openssl genrsa -des3 -passout pass:${ssl_password} -out san.key 4096
+    openssl req -new -passin pass:${ssl_password} -out san.csr -key san.key -config openssl.cnf
+    openssl x509 -req -passin pass:${ssl_password} -days 3650 -in san.csr -out san.crt \
         -CA rootCA.pem -CAkey rootCA.key -CAcreateserial  -sha256 \
         -extensions v3_req -extfile openssl.cnf
     openssl x509 -text -noout -in san.crt
     cat san.crt san.key > san.pem
-    openssl pkcs12 -passin pass:${password}  -passout pass:${password} -export -in san.pem -out san.pfx
-    openssl rsa  -passin pass:${password} -in san.key -out san.key.nopass
+    openssl pkcs12 -passin pass:${ssl_password}  -passout pass:${ssl_password} -export -in san.pem -out san.pfx
+    openssl rsa  -passin pass:${ssl_password} -in san.key -out san.key.nopass
     cd ${current}
 
     # If no password file, ask from stdin
+    # It seems like that 'read' create vault_password as a local var, so
+    # We have to use a global var 'vault_encrypt_password' in here.
     read -p "vault_password(generate random if empty): " vault_password
     vault_password=${vault_password:-$(random_pass 10)}
+    vault_encrypt_password=$vault_password
 
     vault_password_file="/tmp/.vault_password"
     echo $vault_password > ${vault_password_file}
@@ -132,21 +135,19 @@ EOF
 
 
     echo "encrypt openssl password..."
-    echo "vault_ssl_password: "${passowrd} > ${ssl_vault_path}/ssl.vault
+    echo "vault_ssl_password: "${ssl_password} > ${ssl_vault_path}/ssl.vault
     ansible-vault encrypt --vault-password-file=${vault_password_file}  ${ssl_vault_path}/ssl.vault
-    ssl_password=${password}
-    valut_encrypt_password=${vault_password}
 }
 
 
 gen_sshkey(){
-    name=$1
+    local name=$1
     if [[ -z "${name}" ]]
     then
         echo "Miss parameters when called 'gen_sshkey'"
         exit 1
     fi
-    ssh_path=${name}/devops/ansible/files/common/ssh
+    local ssh_path=${name}/devops/ansible/files/common/ssh
     mkdir -p ${ssh_path}
     ssh-keygen -f ${ssh_path}/pipelines_rsa -t rsa  -b 4096 -q -C "pipelines@${name}" -N ''
     ssh-keygen -f ${ssh_path}/wcladmin -t rsa  -b 4096 -q -C "wcladmin@${name}" -N ''
@@ -154,7 +155,7 @@ gen_sshkey(){
 
 
 new(){
-    name=$1
+    local name=$1
     if [[ -z "${name}" ]]
     then
         echo "Miss name('setup.sh new <name>')"
@@ -178,7 +179,7 @@ new(){
 
 **** Password ****
 * SSL Password: ${ssl_password}
-* Valut Password: ${valut_encrypt_password}
+* Valut Password: ${vault_encrypt_password}
 
 **** Files ****
 * ssh key:
