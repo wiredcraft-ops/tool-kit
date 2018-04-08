@@ -17,6 +17,10 @@ get_template_repo(){
     git clone -q -b shell git@github.com:wiredcraft-ops/tool-kit.git ${tmp_dir}
     mv ${tmp_dir}/templates ./${name}
 
+    read -p "Hostname in inventory(CHANGEME): " inv_hostname
+    inv_hostname=${inv_hostname:-CHANGEME}
+
+    replace_templates ${name}'/devops/ansible/inventory.*' "CHANGEME" "${inv_hostname}"
     replace_templates ${name} "_CHANGEME_NAME_PATH_" "\/opt\/${name}"
     replace_templates ${name} "_CHANGEME_ONLY_NAME_" "${name}"
     replace_templates ${name} "_CHANGEME_REPO_" "git@github.com:Wiredcraft\/${name}.git"
