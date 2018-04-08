@@ -27,10 +27,10 @@ get_template_repo(){
 }
 
 replace_templates(){
-    name=$1
-    origin=$2
-    target=$3
-    sed_string='s/'${origin}'/'${target}'/g'
+    local name=$1
+    local origin=$2
+    local target=$3
+    local sed_string='s/'${origin}'/'${target}'/g'
     for f in $(grep -r ${origin} ./${name} -l)
     do
         sed -i '' -e ${sed_string} $f
