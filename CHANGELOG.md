@@ -1,5 +1,12 @@
 # ChangeLog
 
+
+## 0.0.2 2018-04-08
+
+### Added
+
+- Update CHANGEME in inventory.*
+
 ## 0.0.1 2018-04-03
 
 ### Added

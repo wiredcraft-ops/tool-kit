@@ -1,7 +1,7 @@
 #!/bin/bash
 #set -eu -o pipefail
 
-version="0.0.1"
+version="0.0.2"
 ssl_password=""
 valut_encrypt_password=""
 
