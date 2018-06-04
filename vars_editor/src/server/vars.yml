@@ -1,0 +1,92 @@
+---
+internal_domain: "localdomain"
+
+customer: wiredcraft
+project: survey
+
+github_token: "{{ vault_github_token }}"
+github_oauth_key: "{{ vault_github_oauth_key }}"
+github_oauth_secret: "{{ vault_github_oauth_secret }}"
+github_oauth_org: "Wiredcraft/core-members,Wiredcraft/leaders"
+
+pipelines_user: "{{ vault_pipelines_user }}"
+pipelines_password: "{{ vault_pipelines_password }}"
+
+
+wcladmin_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC45xILcAxud6vtjSwxnoH3pKDAwoGeoPWy2t8ZXtpi1yMxe9I6kuFlVi2QRxz88GNlFckaQPLNMe05g7l3+KFZT67TvwuTyHH2NnlEBlRngsc62wtFVXNPxFVC9aDfmPZuF0RsOGxhxZvyiaJzW0jXF4O8P6OkSF1weB8mf/cmZZCG8pZR4ITCLyPZFG1juv9ZdGYwrg/YrpKlqrMvBR6V7vJuK2wQrfLm6nAxgwwt+Ohr6KqICKLzpAM6og8rUskZxLnTv96NoxnX7BpZLddHQ/jBaHCL+pwAk2J18UIVBVzoCs6OV61Ga9i3XL2VL3sw2X2Y0MPQgktYgH3pHo6B
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDF6HYTjdbSfWkkSIfn328qPOSLTt0IgZMbfpcby4o5w3ytkvF7DBNCZXJTRSG9dV1SHaVw8TF1mrpGjOHg1qkW6D6OKp+/EJPhK5ZBNqIAbQs0m+pnPIB1c4b2XebNvYV6X/a2PFH+pakk2g22WB9F0W3VCg3BbBHtOWR3u5Jzave1qkpFsJVCbnmxEU2L8+mupkZOvn+agj1MdqVLXhF7DcBtprynCgk2UmGRvLYH6Sw8ybACU0tVoL4qDMiB+cLiKMLI9HRuXKg0xJ41+B3BQ85ydnhBq0xYUKjqlqO0Kqnbq7hFzlRVF8vWaA0QZuGeFmB1hmkM1FH0ZA8AhWVeaIN9cso0PKx1rNhhgFmG2JAZ3aHGtS+ge/rGE0YNEGyugCIeiRrR7rviFXwZRh5Ez+lApUL6zdA6X7C8KMPJcIuqnmcmnIMEAun2TxWEkzu0GLeP1NtHWQ+EQ/mgg7u0R/x8o1m6VDLzSCF5cOxwgvkl2AO4X5HhV0WGUaUx7zYG4jP1a4Sjp4bajrN+6XhcB/84hDyygMran1GIQnWX9czckWk9PZKc3lfDiqVn2/ruY/AGl6ol/GLSIXRFwltrkgBMqafQUWsGyujr6yQdmg9A/8JbWxznzQ3BAsrg5HWWQUO8PzGPqxdGLVQRxIWWz/+MjXZ3nesmsjFO7V/9zQ==
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCkxz58yBatKsaLzP3NHP3YLTwBUBvun8NrbWDydxK6pb3c8bTAtP3i+psfTdLXbIdB4g+sIak7dtiSm8nH2ZeixOLkqFx8lrSBU0MHFSVQFJo4CrXMR2jUIHGtUbuiMnw+zlfalQFKm/dgqOjh/YEEAWBLzxFEbBV1D8PrBXHD6/4WnD9gqh3IuX1FPNlqJ2kN+s6YwchHb+g5aCXTUIP6hbDa4pXgTz4M4P9JvFcrYyzuRl8ZiCjCX9dameVrXaaTgpcbkKVRKeHFLUCX/Zf8X4Ce+AohteCallQdGfft1RsVcQUh7NR5oS3Y5jrVBqvOR7KFFGAnjc+9B+JfDlTl
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9MSIn9iLTKR2dm1xtTaz8KzmhESlsJt3OPNcp4bEqWG9LF1Hs+xrUOEgzVBJoQLv4RSkdANk68JFzs6zkzqs48w220gpgK9B/ueVD3nAArz/4rQ51xA+zfNvQ3Ii9liWatLLo6zp7Dyb99bIs8K8P0TClgq5KN1n/dZgLoyFul5lodFeRoXyxAYFlu+8xOViiS87486vZcbW9JAplo+CUSFqdJoxVAnomCrwPGXg+JynKodvRUrYdYmfpCJSbimdUP/cjdN3VwlOOjoqp7exAqbGIq+Y2IwnUTwK0mVBHCIqg4e8OVkTpEYCK0i0HSwn4/r3HtLEDiI3FUNqoAIOp
+  # Pipelines
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBq7dmVm9r5/N0E8wDDac41AI+qUIwBgZeKBvkGNB/F2zn2XDkDpSoNdIDQ2N54+mP5SbolHT5hokWyaiMjHIGiytW/sHZYvc0DRTAgoMaDjUed6ETHN5yT2XZU3G+0jQIhXIbvG0d1liM0lonwS6Mtdav+Jagai6JAw0cjnHPs2PgxDxCFxHrG8WY3pIYuCRgQjVkQ9MiOVePThGvSMLykei90F5owYOrL/Dc1TokwcWhTBiCGAjktvzf3D+UtR2QLJMALklDgqKpZInrKGIq3u/sQje7JrpZvXVKCEj1rTMfQhkJUAx+RkxfHrM95A5/Te+ZUBhl1paxwIt3whajSBq/HGjyZLHxFWezxWTp+20DhxcNfkwsChBStr0EGTYG8zJX+1RyyZ9YHNRcxXd7oSjhAEYqk+/HzrWEWZ7d8yDVinmHDfPsf5juoBBdZgMQ7Bg/7dEUQBzN32wxdaCdA5XqgK/E7Lj6R4AE2+oux+bt2RNjUIOgaCSlTmzQEZ8rNAV1+YTqeiAUfuZADjQKYq5FqxztXQE8ih5KJQP44s/8TwqDyFWfLO7a6MobdCJBOasDocN/6TlK4fXtzqdBUVEozPXlgVmvOtCp5urdoQkqEuOOt/BWPuTyF535XMB7jUq5iJp98jGZP89brcrStHK0VJnjJMblJTR8FuwnzQ==
+  # # Admin
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCvX/Nu//ad2isOzCfq5AIy7+tiR9ed6KXJioKFq52u/q21ZLEqG4HQYwm02OpDSQJYDarNCmSHPyCAA681ABfOiS8581Oy00NmMnpIx25YeWSJmNYPan20ehG+SRCpEZnDW6X3xLvZRt+7FdlH6cV6LzdqPkHiywE5rMnFBUo0iogv2iPkMiMCqgyo4iAO+OdxqLwg5LmvXCpFBGtuMvvrnDM8SJygsNVnJXWjBTk1E0W7yo8+auytLNmm/uaxc/DDaZ5BBu5tJoRx+usju+dDMwMNjnRu5DfcR51ZpzlLdo/4uyTX/fSNHAS/8RD5yCT4KRX0iAXF6DrbwGdQPY7qSpvfpzIZud027lMO8rKDSeFpnDwkGHqdTkHqJ4dytvG17XLYpuu6JsqCnyNscusntdP58l0I29avn9S0c+Iu3aJltwK3XGNGE5h5GkqJ4ghND/HcRIILKlPMWhLJgzvJrBA50CSgXd4GYkgmx7/Db0v+9qQpaskiAWvhyKQdOOe+o4AXTWP3cdNREv3jrpbSQRMMkOGyxSib//ZBgO74xeXxzSTrGgn1ViZ5uRC2y3Zr3BMSvGJKdVjvyEizbKfEemQ5Spwmuze3ni5N9QJm5ufUNc/vDaxVpNDxPpgf3MKttSr1JSDlb581L2MPeg5Bm2MsNVGpKALBIXBtRAoiAQ== wcladmin@wiredcraft
+
+
+#######################
+#
+# Docker
+#
+#######################
+docker_registry: registry.localdomain:5000
+docker_log_max_size: "50m"
+docker_log_max_file: "100"
+docker_network_name: survey
+
+has_haproxy: false
+
+
+####
+#
+# WCL common
+#
+####
+
+# keep the current hostname
+enable_hostname: true
+
+# don't "tune" ssh
+enable_ssh: false
+
+ # Log
+logstash_host: cn.logs.service.wiredcraft.com:5044
+logstash_rootca: /opt/ssl/logs/rootCA.pem
+logstash_client_crt: /opt/ssl/logs/client.pem
+logstash_client_key: /opt/ssl/logs/client.key.nopass
+
+
+rpm_filebeat: https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.5.1-x86_64.rpm
+
+#
+# Telegraf
+#
+telegraf_version: 1.5.1-1
+telegraf_outputs_influxdb:
+  - urls:
+      - https://monitoring.service.wiredcraft.com:8086
+    database: wiredcraft
+    username: wcl
+    password: "{{ vault_telegraf_outputs_influxdb_password }}"
+    retention_policy: four_weeks
+    write_consistency: any
+    timeout: 5s
+    user_agent: telegraf
+    udp_playload: 512
+    insecure_skip_verify: 'false'
+    ssl_ca:
+    ssl_cert:
+    ssl_key:
+telegraf_default_global_tags:
+  environment: "{{ env }}"
+telegraf_global_tags: "{{ telegraf_default_global_tags }}"
+
+
+sentry_dsn: "https://{{ vault_sentry_key }}:{{ vault_sentry_secret }}@sentry.wiredcraft.cn/10"
+
+####
+#
+# Couchbase
+#
+####
+couchbase_user: "Administrator"
